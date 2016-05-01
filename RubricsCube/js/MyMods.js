@@ -8,15 +8,26 @@ $(document).ready(function(){
     // update the picking ray with the camera and mouse position
     GC.raycaster.setFromCamera( GC.mouse, GC.camera );
 
-    // calculate objects intersecting the picking ray
-    var intersects = GC.raycaster.intersectObjects( firstRow.children );
-    if (intersects.length > 0) {
-      intersects[ 0 ].object.material.color.set( getRandomColor() );
+    var intersects = [];
+    for (var i = 0; i < GC.objects.length; i++) {
+      intersects.push( GC.raycaster.intersectObjects( GC.objects[i].children ) );
     }
 
-    // for ( var i = 0; i < intersects.length; i++ ) {
-    //   intersects[ i ].object.material.color.set( getRandomColor() );
-    // }
+    //Find and change closest object
+    var closestObject = null;
+    for (var i = 0; i < intersects.length; i++) {
+      if (intersects[i].length > 0) {
+        if(!closestObject){closestObject = intersects[i][0];}
+        else if (closestObject.distance > intersects[i][0].distance) {closestObject = intersects[i][0];}
+      }
+    }
+    if (closestObject) {
+      // closestObject.object.material.color.set( getRandomColor() );
+      // console.log(closestObject);
+      // closestObject.object.rotation.z += 0.1;
+      closestObject.object.parent.rotateAmount += Math.PI/2;
+    }
+
   });
 
 });

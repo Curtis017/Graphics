@@ -20,7 +20,8 @@
 			GC.objects.push(firstRow);
 			GC.objects.push(secondRow);
 			GC.objects.push(thirdRow);
-			var light = getPointLight(10, 50, 130, 0xFFFFFF);
+			// var light = getPointLight(10, 50, 130, 0xFFFFFF);
+			var light = getPointLight(6, 6, 6, 0xFFFFFF);
 
 			for (var k = -1; k < 2; k++) {		// z
 				for (var i = -1; i < 2; i++) {		// y
@@ -33,6 +34,11 @@
 					}
 				}
 			}
+
+			for (var i = 0; i < GC.objects.length; i++) {
+				GC.objects[i].rotateAmount = 0.0;
+			}
+
 
 			// Add components
 			addLight(light);
