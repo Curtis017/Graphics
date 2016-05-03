@@ -7,18 +7,18 @@ GC.raycaster = new THREE.Raycaster();
 GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
 GC.cubesSelected = [];
-GC.meshes = [];
-GC.objects = [];
 GC.choice = 0;
+GC.rotateAmount = 0;
+GC.rotating = false;
 
 // Once objects are created and added draw everything
 var draw = function () {
   GC.renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( GC.renderer.domElement );
 
-  GC.camera.position.z = 3;
-  GC.camera.position.y = 3;
   GC.camera.position.x = 3;
+  GC.camera.position.y = 3;
+  GC.camera.position.z = 3;
   GC.camera.lookAt(new THREE.Vector3(0,0,0));
   render();
 }
@@ -27,18 +27,23 @@ var draw = function () {
 var render = function () {
   requestAnimationFrame( render );
 
+  if (GC.rotateAmount > 0) {
+    if (GC.choice % 3 === 0) {
+      GC.pivot.rotation.z += (Math.PI/2)/20;
+    } else if (GC.choice % 3 === 1) {
+      GC.pivot.rotation.x += (Math.PI/2)/20;
+    } else {
+      GC.pivot.rotation.y += (Math.PI/2)/20;
+    }
+    GC.rotateAmount--;
+    if (GC.rotateAmount <= 0) {
+      setScene();
+      GC.rotating = false;
+    }
+  }
+
   GC.renderer.render(GC.scene, GC.camera);
 };
-
-// Add light to the scene
-var addLight = function (light) {
-  GC.scene.add(light);
-}
-
-// Add mesh to the scene
-var addMesh = function (mesh) {
-  GC.meshes.push(mesh);
-}
 
 var setCubes = function () {
   GC.pivot.rotation.set( 0, 0, 0 );
@@ -59,7 +64,7 @@ var setScene = function () {
 
 var setCubesSelectedZ = function (clickedCubeZValue){
   for (var i = 2; i < 29; i++) {
-    if (Math.round((GC.scene.children[i].position.z)*100)/100 === clickedCubeZValue) {
+    if (Math.trunc(GC.scene.children[i].position.z) === Math.trunc(clickedCubeZValue)) {
       GC.cubesSelected.push(GC.scene.children[i]);
     }
   }
@@ -67,7 +72,7 @@ var setCubesSelectedZ = function (clickedCubeZValue){
 
 var setCubesSelectedX = function (clickedCubeXValue){
   for (var i = 2; i < 29; i++) {
-    if (Math.round((GC.scene.children[i].position.x)*100)/100 === clickedCubeXValue) {
+    if (Math.trunc(GC.scene.children[i].position.x) === Math.trunc(clickedCubeXValue)) {
       GC.cubesSelected.push(GC.scene.children[i]);
     }
   }
@@ -75,7 +80,7 @@ var setCubesSelectedX = function (clickedCubeXValue){
 
 var setCubesSelectedY = function (clickedCubeYValue){
   for (var i = 2; i < 29; i++) {
-    if (Math.round((GC.scene.children[i].position.y)*100)/100 === clickedCubeYValue) {
+    if (Math.trunc(GC.scene.children[i].position.y) === Math.trunc(clickedCubeYValue)) {
       GC.cubesSelected.push(GC.scene.children[i]);
     }
   }

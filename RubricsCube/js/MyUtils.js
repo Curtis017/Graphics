@@ -5,6 +5,7 @@ GC.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeigh
 GC.renderer = new THREE.WebGLRenderer();
 GC.raycaster = new THREE.Raycaster();
 GC.mouse = new THREE.Vector2();
+GC.done = false;
 GC.objects = [];
 
 // Once objects are created and added draw everything
@@ -29,14 +30,25 @@ var render = function () {
 
   // Rotation animation
   for (var i = 0; i < GC.objects.length; i++) {
-    GC.objects[i].rotation.y += 0.01;
-    GC.objects[i].rotation.x += 0.01;
+    // GC.objects[i].rotation.y += 0.01;
+    // GC.objects[i].rotation.x += 0.01;
 
     // Rotate if the parent has been clicked
     if (GC.objects[i].rotateAmount > 0.0) {
       GC.objects[i].rotation.z += (Math.PI/2)/20;
       GC.objects[i].rotateAmount -= (Math.PI/2)/20;
-    } else {GC.objects[i].rotateAmount = 0.0;}
+      if(GC.objects[i].rotateAmount <= 0.0){
+        GC.done = true;
+      }
+      // updatePosition();
+    } else {
+      GC.objects[i].rotateAmount = 0.0;
+      if(GC.done){
+        GC.done = false;
+        updatePosition();
+        console.log("updated Positions");
+      }
+    }
   }
 
   GC.renderer.render(GC.scene, GC.camera);
@@ -50,4 +62,17 @@ var addLight = function (light) {
 // Add mesh to the scene
 var addMesh = function (mesh) {
   GC.meshes.push(mesh);
+}
+
+var updatePosition = function (){
+  for (var i = 0; i < GC.objects.length; i++) {
+    for (var j = 0; j < GC.objects[i].children.length; j++) {
+      GC.objects[i].children[j].updateMatrix();
+      // var vector = new THREE.Vector3();
+      // vector.setFromMatrixPosition( GC.objects[i].children[j].matrixWorld );
+      // GC.objects[i].children[j].position.x = vector.x;
+      // GC.objects[i].children[j].position.y = vector.y;
+      // GC.objects[i].children[j].position.z = vector.z;
+    }
+  }
 }

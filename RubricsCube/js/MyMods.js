@@ -22,9 +22,6 @@ $(document).ready(function(){
       }
     }
     if (closestObject) {
-      // closestObject.object.material.color.set( getRandomColor() );
-      // console.log(closestObject);
-      // closestObject.object.rotation.z += 0.1;
       closestObject.object.parent.rotateAmount += Math.PI/2;
     }
 
