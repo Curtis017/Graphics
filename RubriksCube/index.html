@@ -7,7 +7,7 @@
 		<script src="js/MyUtils.js"></script>
 		<script src="js/MyFactory.js"></script>
 		<script src="js/MyMods.js"></script>
-		<script src="js/MadMods.js"></script>
+		<!-- <script src="js/MadMods.js"></script> -->
 	</head>
 	<body>
 		<!-- Graphics Function Begin -->
@@ -19,7 +19,6 @@
 			GC.scene.add(GC.pivot);
 
 			// Set cubes
-			var name = 2;
 			for (var k = -1; k < 2; k++) {		// z
 				for (var i = -1; i < 2; i++) {		// y
 					for (var j = -1; j < 2; j++) {	// x
@@ -27,7 +26,6 @@
 						cube.position.x = j;
 						cube.position.y = i;
 						cube.position.z = k;
-						cube.name = name++;
 						GC.scene.add(cube);
 					}
 				}

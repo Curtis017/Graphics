@@ -8,8 +8,8 @@ GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
 GC.cubesSelected = [];
 GC.choice = 0;
-GC.rotateAmount = 0;
-GC.rotating = false;
+GC.counter = 0;
+GC.rotatingLock = false;
 
 // Once objects are created and added draw everything
 var draw = function () {
@@ -21,24 +21,20 @@ var draw = function () {
   GC.camera.position.z = 3;
   GC.camera.lookAt(new THREE.Vector3(0,0,0));
   render();
-}
+};
 
 // Main loop that keeps displaying objects
 var render = function () {
   requestAnimationFrame( render );
 
-  if (GC.rotateAmount > 0) {
-    if (GC.choice % 3 === 0) {
-      GC.pivot.rotation.z += (Math.PI/2)/20;
-    } else if (GC.choice % 3 === 1) {
-      GC.pivot.rotation.x += (Math.PI/2)/20;
-    } else {
-      GC.pivot.rotation.y += (Math.PI/2)/20;
-    }
-    GC.rotateAmount--;
-    if (GC.rotateAmount <= 0) {
-      setScene();
-      GC.rotating = false;
+  // Rotates the object slowly
+  if (GC.counter > 0) {
+    rotateAroundPivot();
+    GC.counter--;
+    // Finished rotating
+    if (GC.counter <= 0) {
+      resetScene();
+      GC.rotatingLock = false;
     }
   }
 
@@ -51,37 +47,58 @@ var setCubes = function () {
   for (var i = 0; i < GC.cubesSelected.length; i++) {
     THREE.SceneUtils.attach( GC.cubesSelected[ i ], GC.scene, GC.pivot );
   }
-}
+};
 
-var setScene = function () {
+var resetScene = function () {
   GC.pivot.updateMatrixWorld();
   for (var i = 0; i < GC.cubesSelected.length; i++) {
     GC.cubesSelected[i].updateMatrixWorld();
     THREE.SceneUtils.detach( GC.cubesSelected[ i ], GC.pivot, GC.scene );
   }
   GC.cubesSelected = [];
-}
+};
 
-var setCubesSelectedZ = function (clickedCubeZValue){
-  for (var i = 2; i < 29; i++) {
-    if (Math.trunc(GC.scene.children[i].position.z) === Math.trunc(clickedCubeZValue)) {
-      GC.cubesSelected.push(GC.scene.children[i]);
-    }
+var rotateAroundPivot = function() {
+  switch (GC.choice % 3) {
+    case 0:
+      GC.pivot.rotation.z += (Math.PI/2)/20;
+      break;
+    case 1:
+      GC.pivot.rotation.x += (Math.PI/2)/20;
+      break;
+    case 2:
+      GC.pivot.rotation.y += (Math.PI/2)/20;
+      break;
   }
-}
+};
 
-var setCubesSelectedX = function (clickedCubeXValue){
-  for (var i = 2; i < 29; i++) {
-    if (Math.trunc(GC.scene.children[i].position.x) === Math.trunc(clickedCubeXValue)) {
-      GC.cubesSelected.push(GC.scene.children[i]);
-    }
+var setSelectedCubes = function(clickedCubePosition) {
+  switch (GC.choice % 3) {
+    // Rotate Z
+    case 0:
+      for (var i = 2; i < 29; i++) {
+        if (Math.trunc(GC.scene.children[i].position.z) === Math.trunc(clickedCubePosition.z)) {
+          GC.cubesSelected.push(GC.scene.children[i]);
+        }
+      }
+      break;
+    // Rotate X
+    case 1:
+      for (var i = 2; i < 29; i++) {
+        if (Math.trunc(GC.scene.children[i].position.x) === Math.trunc(clickedCubePosition.x)) {
+          GC.cubesSelected.push(GC.scene.children[i]);
+        }
+      }
+      break;
+    // Rotate Y
+    case 2:
+      for (var i = 2; i < 29; i++) {
+        if (Math.trunc(GC.scene.children[i].position.y) === Math.trunc(clickedCubePosition.y)) {
+          GC.cubesSelected.push(GC.scene.children[i]);
+        }
+      }
+      break;
   }
-}
-
-var setCubesSelectedY = function (clickedCubeYValue){
-  for (var i = 2; i < 29; i++) {
-    if (Math.trunc(GC.scene.children[i].position.y) === Math.trunc(clickedCubeYValue)) {
-      GC.cubesSelected.push(GC.scene.children[i]);
-    }
-  }
-}
+  GC.counter = 20;
+  setCubes();
+};
