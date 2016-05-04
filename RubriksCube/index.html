@@ -40,7 +40,7 @@
 						material.push(new THREE.MeshPhongMaterial( {
 							map: texture,
 							specular: 0x050505,
-    					shininess: 100
+							shininess: 100
 						}));
 						// After all the textures have been loaded
 						if (material.length == textures.length) {
@@ -61,11 +61,10 @@
 							draw();
 						}
 					});
-			}
-
-
-
+				}
 		</script>
 		<!-- Graphics Function End -->
 	</body>
 </html>
+<!-- Run locally to prevent cross site origin error -->
+<!-- "$ python2 -m SimpleHTTPServer 8000" -->

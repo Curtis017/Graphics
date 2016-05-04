@@ -6,6 +6,7 @@ GC.renderer = new THREE.WebGLRenderer();
 GC.raycaster = new THREE.Raycaster();
 GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
+GC.rotateSpeed = 20;
 GC.cubesSelected = [];
 GC.choice = 0;
 GC.counter = 0;
@@ -62,13 +63,13 @@ var resetScene = function () {
 var rotateAroundPivot = function() {
   switch (GC.choice % 3) {
     case 0:
-      GC.pivot.rotation.z += (Math.PI/2)/20;
+      GC.pivot.rotation.z += (Math.PI/2)/GC.rotateSpeed;
       break;
     case 1:
-      GC.pivot.rotation.x += (Math.PI/2)/20;
+      GC.pivot.rotation.x += (Math.PI/2)/GC.rotateSpeed;
       break;
     case 2:
-      GC.pivot.rotation.y += (Math.PI/2)/20;
+      GC.pivot.rotation.y += (Math.PI/2)/GC.rotateSpeed;
       break;
   }
 };
@@ -100,6 +101,6 @@ var setSelectedCubes = function(clickedCubePosition) {
       }
       break;
   }
-  GC.counter = 20;
+  GC.counter = GC.rotateSpeed;
   setCubes();
 };
