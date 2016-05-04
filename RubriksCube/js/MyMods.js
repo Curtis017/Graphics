@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  // Changes Color of object you clicked
+  // Rotates selection of cubes
   $("body").on("click", function(){
     if (!GC.rotatingLock) {
 
@@ -19,6 +19,7 @@ $(document).ready(function(){
     }
   });
 
+  // Switches which way to rotate
   $("body").on("keypress", function(){
     if (!GC.rotatingLock){
       GC.choice++;

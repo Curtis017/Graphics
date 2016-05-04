@@ -13,26 +13,57 @@
 		<!-- Graphics Function Begin -->
 		<script>
 
-			// Add components
-			var light = getPointLight(10, 10, 10, 0xFFFFFF);
+			// Add Light
+			// var light = getPointLight(2, 2, 2, 0xFFFFFF);
+			// var light = getPointLight(10, 10, 10, 0xFFFFFF);
+			var light = new THREE.AmbientLight( 0xFFFFFF ); // white light
 			GC.scene.add(light);
 			GC.scene.add(GC.pivot);
 
-			// Set cubes
-			for (var k = -1; k < 2; k++) {		// z
-				for (var i = -1; i < 2; i++) {		// y
-					for (var j = -1; j < 2; j++) {	// x
-						var cube = getCubeMesh();
-						cube.position.x = j;
-						cube.position.y = i;
-						cube.position.z = k;
-						GC.scene.add(cube);
-					}
-				}
+			// instantiate a loader
+			var loader = new THREE.TextureLoader();
+			var textures = [
+				'faces/red.png', 'faces/blue.png',
+				'faces/green.png', 'faces/yellow.png',
+				'faces/white.png', 'faces/orange.png'
+			];
+
+			var material = [];
+			for (var i = 0; i < textures.length; i++) {
+				// load a resource
+				loader.load(
+					// resource URL
+					textures[i],
+					// Function when resource is loaded
+					function ( texture ) {
+						// Add texture to material and append array
+						material.push(new THREE.MeshPhongMaterial( {
+							map: texture,
+							specular: 0x050505,
+    					shininess: 100
+						}));
+						// After all the textures have been loaded
+						if (material.length == textures.length) {
+							GC.materials = new THREE.MeshFaceMaterial( material );
+							// Create cubes and set position
+							for (var k = -1; k < 2; k++) {		// z
+								for (var i = -1; i < 2; i++) {		// y
+									for (var j = -1; j < 2; j++) {	// x
+										var cube = getCubeMesh();
+										cube.position.x = j;
+										cube.position.y = i;
+										cube.position.z = k;
+										GC.scene.add(cube);
+									}
+								}
+							}
+							// Draw the final scene
+							draw();
+						}
+					});
 			}
 
-			// Draw the final scene
-			draw();
+
 
 		</script>
 		<!-- Graphics Function End -->

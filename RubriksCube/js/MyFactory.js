@@ -4,17 +4,7 @@
 // Creates a cube mesh
 var getCubeMesh = function () {
   var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-  // var material = new THREE.MeshPhongMaterial({color: getRandomColor()});
-  var material = [
-      new THREE.MeshPhongMaterial({color:0xFFFF00}),  // Yellow
-      new THREE.MeshPhongMaterial({color:0xFFA500}),  // Orange
-      new THREE.MeshPhongMaterial({color:0xFF0000}),  // Red
-      new THREE.MeshPhongMaterial({color:0x0000FF}),  // Blue
-      new THREE.MeshPhongMaterial({color:0x00FF00}),  // Green
-      new THREE.MeshPhongMaterial({color:0xFFFFFF}),  // White
-  ];
-  var materials = new THREE.MeshFaceMaterial(material);
-  var cube = new THREE.Mesh( geometry, materials );
+  var cube = new THREE.Mesh( geometry, GC.materials );
   return cube;
 }
 

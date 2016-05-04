@@ -10,6 +10,7 @@ GC.cubesSelected = [];
 GC.choice = 0;
 GC.counter = 0;
 GC.rotatingLock = false;
+GC.materials = null;
 
 // Once objects are created and added draw everything
 var draw = function () {
