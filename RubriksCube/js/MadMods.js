@@ -26,9 +26,11 @@ $(GC.renderer.domElement).on('mousedown', function(e) {
                 'XYZ'
             ));
 
-        for (var i = 0; i < GC.meshes.length; i++) {
-          GC.meshes[i].quaternion.multiplyQuaternions(deltaRotationQuaternion, GC.meshes[i].quaternion);
-        }
+        GC.scene.traverse( function( node ) {
+          if ( node instanceof THREE.Mesh ) {
+            GC.camera.quaternion.multiplyQuaternions(deltaRotationQuaternion, GC.camera.quaternion);
+          }
+        });
     }
 
     MM.previousMousePosition = {

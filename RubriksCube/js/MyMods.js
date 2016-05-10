@@ -11,7 +11,11 @@ $(document).ready(function(){
       GC.raycaster.setFromCamera( GC.mouse, GC.camera );
 
       // calculate objects intersecting the picking ray
-      var intersects = GC.raycaster.intersectObjects( GC.scene.children );
+      // var intersects = GC.raycaster.intersectObjects( GC.scene.children );
+      var objects = [];
+      GC.scene.traverse( function( node ) { if ( node instanceof THREE.Mesh ) { objects.push(node);}});
+
+      var intersects = GC.raycaster.intersectObjects( objects );
       if (intersects.length > 0) {
         GC.rotatingLock = true;
         setSelectedCubes(intersects[0].object.position);
