@@ -11,7 +11,6 @@ GC.cubesSelected = [];
 GC.choice = 0;
 GC.counter = 0;
 GC.rotatingLock = false;
-GC.materials = null;
 
 // Once objects are created and added draw everything
 var draw = function () {
@@ -43,6 +42,7 @@ var render = function () {
   GC.renderer.render(GC.scene, GC.camera);
 };
 
+// attaches selected group to the pivot
 var setCubes = function () {
   GC.pivot.rotation.set( 0, 0, 0 );
   GC.pivot.updateMatrixWorld();
@@ -51,6 +51,7 @@ var setCubes = function () {
   }
 };
 
+// adds cubes back to the scene
 var resetScene = function () {
   GC.pivot.updateMatrixWorld();
   for (var i = 0; i < GC.cubesSelected.length; i++) {
@@ -60,6 +61,7 @@ var resetScene = function () {
   GC.cubesSelected = [];
 };
 
+// Rotates the pivot around the desired axis
 var rotateAroundPivot = function() {
   switch (GC.choice % 3) {
     case 0:
@@ -74,33 +76,52 @@ var rotateAroundPivot = function() {
   }
 };
 
+// Sets an array with the selected group of cubes
 var setSelectedCubes = function(clickedCubePosition) {
-  switch (GC.choice % 3) {
-    // Rotate Z
-    case 0:
-      for (var i = 2; i < 29; i++) {
-        if (Math.trunc(GC.scene.children[i].position.z) === Math.trunc(clickedCubePosition.z)) {
-          GC.cubesSelected.push(GC.scene.children[i]);
+  GC.scene.traverse( function( node ) {
+    if ( node instanceof THREE.Mesh ) {
+      switch(GC.choice % 3) {
+        case 0:
+        if (Math.trunc(node.position.z) === Math.trunc(clickedCubePosition.z)) {
+          GC.cubesSelected.push(node);
         }
-      }
-      break;
-    // Rotate X
-    case 1:
-      for (var i = 2; i < 29; i++) {
-        if (Math.trunc(GC.scene.children[i].position.x) === Math.trunc(clickedCubePosition.x)) {
-          GC.cubesSelected.push(GC.scene.children[i]);
+        break;
+        case 1:
+        if (Math.trunc(node.position.x) === Math.trunc(clickedCubePosition.x)) {
+          GC.cubesSelected.push(node);
         }
-      }
-      break;
-    // Rotate Y
-    case 2:
-      for (var i = 2; i < 29; i++) {
-        if (Math.trunc(GC.scene.children[i].position.y) === Math.trunc(clickedCubePosition.y)) {
-          GC.cubesSelected.push(GC.scene.children[i]);
+        break;
+        case 2:
+        if (Math.trunc(node.position.y) === Math.trunc(clickedCubePosition.y)) {
+          GC.cubesSelected.push(node);
         }
+        break;
       }
-      break;
-  }
+    }
+  });
   GC.counter = GC.rotateSpeed;
   setCubes();
 };
+
+// Creates a cube mesh (rubrik's colors)
+var getCubeMesh = function () {
+  var materials = [
+			    new THREE.MeshPhongMaterial({
+			        color: 0x009E60}),	//Green
+			    new THREE.MeshPhongMaterial({
+			        color: 0xffffff}),	//White
+			    new THREE.MeshPhongMaterial({
+			        color: 0x0051BA}),	//Blue
+			    new THREE.MeshPhongMaterial({
+			        color: 0xC41E3A}),	//Red
+			    new THREE.MeshPhongMaterial({
+			        color: 0xFFD500}),	//Yellow
+			    new THREE.MeshPhongMaterial( {
+			        color: 0xFF5800})		//Orange
+	];
+
+	var material = new THREE.MeshFaceMaterial(materials);
+  var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  var cube = new THREE.Mesh( geometry, material );
+  return cube;
+}
