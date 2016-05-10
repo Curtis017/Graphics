@@ -11,6 +11,7 @@ GC.cubesSelected = [];
 GC.choice = 0;
 GC.counter = 0;
 GC.rotatingLock = false;
+GC.controls = null;
 
 // Once objects are created and added draw everything
 var draw = function () {
@@ -21,6 +22,10 @@ var draw = function () {
   GC.camera.position.y = 3;
   GC.camera.position.z = 3;
   GC.camera.lookAt(new THREE.Vector3(0,0,0));
+
+  // Add OrbitControls so that we can pan around with the mouse.
+  GC.controls = new THREE.OrbitControls(GC.camera, GC.renderer.domElement);
+
   render();
 };
 
@@ -40,6 +45,7 @@ var render = function () {
   }
 
   GC.renderer.render(GC.scene, GC.camera);
+  GC.controls.update();
 };
 
 // attaches selected group to the pivot
