@@ -5,9 +5,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="js/three.min.js"></script>
 		<script src="js/MyUtils.js"></script>
-		<!-- <script src="js/MyFactory.js"></script> -->
+		<script src="js/OrbitControls.js"></script>
 		<script src="js/MyMods.js"></script>
-		<!-- <script src="js/MadMods.js"></script> -->
 	</head>
 	<body>
 		<!-- Graphics Function Begin -->
@@ -35,7 +34,7 @@
 						var edges = new THREE.EdgesHelper( cube, 0x000000 );
 
 						// Set attributes
-						edges.material.linewidth = 6;
+						edges.material.linewidth = 3;
 						cube.position.x = j;
 						cube.position.y = i;
 						cube.position.z = k;
