@@ -6,11 +6,12 @@ GC.renderer = new THREE.WebGLRenderer();
 GC.raycaster = new THREE.Raycaster();
 GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
-GC.rotateSpeed = 20;
+GC.rotationSpeed = 20;
+GC.rotationDirection = 0;
+GC.rotationLock = false;
 GC.cubesSelected = [];
 GC.choice = 0;
 GC.counter = 0;
-GC.rotatingLock = false;
 GC.controls = null;
 
 // Once objects are created and added draw everything
@@ -35,12 +36,13 @@ var render = function () {
 
   // Rotates the object slowly
   if (GC.counter > 0) {
-    rotateAroundPivot();
+    if (GC.rotationDirection % 2 == 0) { rotatePositiveAroundPivot();}
+    else { rotateNegativeAroundPivot();}
     GC.counter--;
     // Finished rotating
     if (GC.counter <= 0) {
       resetScene();
-      GC.rotatingLock = false;
+      GC.rotationLock = false;
     }
   }
 
@@ -68,16 +70,30 @@ var resetScene = function () {
 };
 
 // Rotates the pivot around the desired axis
-var rotateAroundPivot = function() {
+var rotatePositiveAroundPivot = function() {
   switch (GC.choice % 3) {
     case 0:
-      GC.pivot.rotation.z += (Math.PI/2)/GC.rotateSpeed;
+      GC.pivot.rotation.z += (Math.PI/2)/GC.rotationSpeed;
       break;
     case 1:
-      GC.pivot.rotation.x += (Math.PI/2)/GC.rotateSpeed;
+      GC.pivot.rotation.x += (Math.PI/2)/GC.rotationSpeed;
       break;
     case 2:
-      GC.pivot.rotation.y += (Math.PI/2)/GC.rotateSpeed;
+      GC.pivot.rotation.y += (Math.PI/2)/GC.rotationSpeed;
+      break;
+  }
+};
+
+var rotateNegativeAroundPivot = function() {
+  switch (GC.choice % 3) {
+    case 0:
+      GC.pivot.rotation.z -= (Math.PI/2)/GC.rotationSpeed;
+      break;
+    case 1:
+      GC.pivot.rotation.x -= (Math.PI/2)/GC.rotationSpeed;
+      break;
+    case 2:
+      GC.pivot.rotation.y -= (Math.PI/2)/GC.rotationSpeed;
       break;
   }
 };
@@ -105,7 +121,7 @@ var setSelectedCubes = function(clickedCubePosition) {
       }
     }
   });
-  GC.counter = GC.rotateSpeed;
+  GC.counter = GC.rotationSpeed;
   setCubes();
 };
 

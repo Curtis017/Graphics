@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   // Rotates selection of cubes
   $("body").on("click", function(){
-    if (!GC.rotatingLock) {
+    if (!GC.rotationLock) {
 
       GC.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
       GC.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -17,16 +17,21 @@ $(document).ready(function(){
 
       var intersects = GC.raycaster.intersectObjects( objects );
       if (intersects.length > 0) {
-        GC.rotatingLock = true;
+        GC.rotationLock = true;
         setSelectedCubes(intersects[0].object.position);
       }
     }
   });
 
   // Switches which way to rotate
-  $("body").on("keypress", function(){
-    if (!GC.rotatingLock){
-      GC.choice++;
+  $("body").on("keypress", function(key){
+    if (!GC.rotationLock) {
+      if (key.keyCode === 115) {  // s key
+        GC.rotationDirection++;
+      }
+      else { // any other key
+        GC.choice++;
+      }
     }
   });
 
