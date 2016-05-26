@@ -2,7 +2,7 @@
 var GC = {}
 GC.scene = new THREE.Scene();
 GC.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-GC.renderer = new THREE.WebGLRenderer();
+GC.renderer = getRenderer();
 GC.raycaster = new THREE.Raycaster();
 GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
@@ -146,4 +146,26 @@ var getCubeMesh = function () {
   var geometry = new THREE.BoxGeometry( 1, 1, 1 );
   var cube = new THREE.Mesh( geometry, material );
   return cube;
+}
+
+// From Three.js website - detects if browser is WebGL capable (mobile) 
+function webglAvailable() {
+  try {
+    var canvas = document.createElement( 'canvas' );
+    return !!( window.WebGLRenderingContext && (
+      canvas.getContext( 'webgl' ) ||
+      canvas.getContext( 'experimental-webgl' ) )
+    );
+  } catch ( e ) {
+    return false;
+  }
+}
+
+// returns appropriate renderer (mobile/desktop)
+function getRenderer(){
+  if ( webglAvailable() ) {
+    return( new THREE.WebGLRenderer() ); // Desktop (or WebGL capable)
+  } else {
+    return( new THREE.CanvasRenderer() ); // Mobile
+  }
 }
