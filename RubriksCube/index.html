@@ -4,6 +4,8 @@
 		<link rel="stylesheet" type="text/css" href="css/curtis.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="js/three.min.js"></script>
+		<script src="js/CanvasRenderer.js"></script>
+		<script src="js/Projector.js"></script>
 		<script src="js/MyUtils.js"></script>
 		<script src="js/OrbitControls.js"></script>
 		<script src="js/MyMods.js"></script>
@@ -12,14 +14,7 @@
 		<!-- Graphics Function Begin -->
 		<script>
 
-			// Add Light
-			// var light2 = getPointLight(2, 2, 2, 0xFFFFFF);
-			// var light = getPointLight(10, 10, 10, 0xFFFFFF);
-			// var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-			// var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
-			// light.position.set( 0, 1, 0 );
-			// var light = new THREE.PointLight( 0xffffff, 1, 100 );
-			// light.position.set( 5, 5, 5 );
+			// Add light
 			var light = new THREE.AmbientLight( 0xFFFFFF ); // white light
 			GC.scene.add(light);
 			GC.scene.add(GC.pivot);
@@ -56,5 +51,7 @@
 		<!-- Graphics Function End -->
 	</body>
 </html>
+
+
 <!-- Run locally to prevent cross site origin error -->
 <!-- "$ python2 -m SimpleHTTPServer 8000" -->
