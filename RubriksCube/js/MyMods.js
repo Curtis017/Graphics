@@ -35,4 +35,12 @@ $(document).ready(function(){
     }
   });
 
+  // Resizing Window
+  $(window).resize(function(){
+    GC.camera.aspect = window.innerWidth / window.innerHeight;
+    GC.camera.updateProjectionMatrix();
+
+    GC.renderer.setSize( window.innerWidth, window.innerHeight );
+  });
+
 });

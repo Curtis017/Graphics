@@ -19,6 +19,7 @@ var draw = function () {
   GC.renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( GC.renderer.domElement );
 
+  // Initial camera position
   GC.camera.position.x = 3;
   GC.camera.position.y = 3;
   GC.camera.position.z = 3;
@@ -46,6 +47,7 @@ var render = function () {
     }
   }
 
+  // Render new scene
   GC.renderer.render(GC.scene, GC.camera);
   GC.controls.update();
 };
@@ -84,6 +86,7 @@ var rotatePositiveAroundPivot = function() {
   }
 };
 
+// Rotates in the oposite of current direction
 var rotateNegativeAroundPivot = function() {
   switch (GC.choice % 3) {
     case 0:
@@ -142,13 +145,14 @@ var getCubeMesh = function () {
 			        color: 0xFF5800})		//Orange
 	];
 
+  // Create the cube with the desired colors (above)
 	var material = new THREE.MeshFaceMaterial(materials);
   var geometry = new THREE.BoxGeometry( 1, 1, 1 );
   var cube = new THREE.Mesh( geometry, material );
   return cube;
 }
 
-// From Three.js website - detects if browser is WebGL capable (mobile) 
+// From Three.js website - detects if browser is WebGL capable (mobile)
 function webglAvailable() {
   try {
     var canvas = document.createElement( 'canvas' );
