@@ -1,11 +1,14 @@
 $(document).ready(function(){
 
+  // start the program
+  start();
+
   // Rotates selection of cubes
-  $("body").on("click", function(){
+  $("#rubriksCube").on("click", function(){
     if (!GC.rotationLock) {
 
-      GC.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      GC.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      GC.mouse.x = ( event.clientX / GC.canvas.offsetWidth ) * 2 - 1;
+      GC.mouse.y = - ( event.clientY / GC.canvas.offsetHeight ) * 2 + 1;
 
       // update the picking ray with the camera and mouse position
       GC.raycaster.setFromCamera( GC.mouse, GC.camera );
@@ -37,10 +40,10 @@ $(document).ready(function(){
 
   // Resizing Window
   $(window).resize(function(){
-    GC.camera.aspect = window.innerWidth / window.innerHeight;
+    GC.camera.aspect = GC.canvas.offsetWidth / GC.canvas.offsetHeight;
     GC.camera.updateProjectionMatrix();
 
-    GC.renderer.setSize( window.innerWidth, window.innerHeight );
+    GC.renderer.setSize( GC.canvas.offsetWidth, GC.canvas.offsetHeight );
   });
 
 });

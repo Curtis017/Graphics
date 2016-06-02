@@ -1,11 +1,10 @@
 // Global Graphic Content
 var GC = {}
 GC.scene = new THREE.Scene();
-GC.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-GC.renderer = getRenderer();
 GC.raycaster = new THREE.Raycaster();
 GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
+GC.renderer = getRenderer();
 GC.rotationSpeed = 20;
 GC.rotationDirection = 0;
 GC.rotationLock = false;
@@ -13,11 +12,20 @@ GC.cubesSelected = [];
 GC.choice = 0;
 GC.counter = 0;
 GC.controls = null;
+GC.canvas = null;
+GC.camera = null;
+
+// Once page is ready start drawing
+var start = function () {
+  GC.canvas = document.getElementById("rubriksCube");
+  GC.camera = new THREE.PerspectiveCamera( 75, GC.canvas.offsetWidth/GC.canvas.offsetHeight, 0.1, 1000 );
+  draw();
+}
 
 // Once objects are created and added draw everything
 var draw = function () {
-  GC.renderer.setSize( window.innerWidth, window.innerHeight );
-  document.body.appendChild( GC.renderer.domElement );
+  GC.renderer.setSize( GC.canvas.offsetWidth, GC.canvas.offsetHeight );
+  document.getElementById("rubriksCube").appendChild( GC.renderer.domElement );
 
   // Initial camera position
   GC.camera.position.x = 3;
@@ -129,7 +137,7 @@ var setSelectedCubes = function(clickedCubePosition) {
 };
 
 // Creates a cube mesh (rubrik's colors)
-var getCubeMesh = function () {
+var getCubeMesh = function() {
   var materials = [
 			    new THREE.MeshPhongMaterial({
 			        color: 0x009E60}),	//Green
@@ -166,7 +174,7 @@ function webglAvailable() {
 }
 
 // returns appropriate renderer (mobile/desktop)
-function getRenderer(){
+function getRenderer() {
   if ( webglAvailable() ) {
     return( new THREE.WebGLRenderer() ); // Desktop (or WebGL capable)
   } else {
