@@ -1,3 +1,6 @@
+// TODO: make functions more general i.e. pass in variables instead of using globals
+// TODO: combine all of my code into a single .js file
+
 // Global Graphic Content
 var GC = {}
 GC.scene = new THREE.Scene();
