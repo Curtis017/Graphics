@@ -1,6 +1,7 @@
 // TODO: combine all of my code into a single .min.js file
 // TODO: Create buttons for interacting with cube instead of key presses
 // TODO: Change background color to white
+// TODO: Replace modded elements with enums
 
 // Global Graphic Content
 var GC = {}
