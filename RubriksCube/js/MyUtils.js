@@ -1,5 +1,5 @@
-// TODO: make functions more general i.e. pass in variables instead of using globals
 // TODO: combine all of my code into a single .js file
+// TODO: Create buttons for interacting with cube instead of key presses
 
 // Global Graphic Content
 var GC = {}
@@ -20,15 +20,36 @@ GC.camera = null;
 
 // Once page is ready start drawing
 var start = function () {
+  // Add light
+  var light = new THREE.AmbientLight( 0xFFFFFF ); // white light
+  GC.scene.add(light);
+  GC.scene.add(GC.pivot);
+
+  // Create cubes and set position
+  for (var k = -1; k < 2; k++) {			// z
+    for (var i = -1; i < 2; i++) {		// y
+      for (var j = -1; j < 2; j++) {	// x
+
+        // Create objects
+        var cube = getCubeMesh();
+        var edges = new THREE.EdgesHelper( cube, 0x000000 );
+
+        // Set attributes
+        edges.material.linewidth = 3;
+        cube.position.x = j;
+        cube.position.y = i;
+        cube.position.z = k;
+
+        // Add to the scene
+        GC.scene.add(cube);
+        GC.scene.add(edges);
+      }
+    }
+  }
+
+  // create canvas and camera
   GC.canvas = document.getElementById("rubriksCube");
   GC.camera = new THREE.PerspectiveCamera( 75, GC.canvas.offsetWidth/GC.canvas.offsetHeight, 0.1, 1000 );
-  draw();
-}
-
-// Once objects are created and added draw everything
-var draw = function () {
-  GC.renderer.setSize( GC.canvas.offsetWidth, GC.canvas.offsetHeight );
-  document.getElementById("rubriksCube").appendChild( GC.renderer.domElement );
 
   // Initial camera position
   GC.camera.position.x = 3;
@@ -36,9 +57,14 @@ var draw = function () {
   GC.camera.position.z = 3;
   GC.camera.lookAt(new THREE.Vector3(0,0,0));
 
+  // Get the size and container for the graphics content
+  GC.renderer.setSize( GC.canvas.offsetWidth, GC.canvas.offsetHeight );
+  document.getElementById("rubriksCube").appendChild( GC.renderer.domElement );
+
   // Add OrbitControls so that we can pan around with the mouse.
   GC.controls = new THREE.OrbitControls(GC.camera, GC.renderer.domElement);
 
+  // Start rendering the scene
   render();
 };
 
@@ -183,4 +209,10 @@ function getRenderer() {
   } else {
     return( new THREE.CanvasRenderer() ); // Mobile
   }
+}
+
+function resetCamera() {
+  GC.camera.position.x = 3;
+  GC.camera.position.y = 3;
+  GC.camera.position.z = 3;
 }

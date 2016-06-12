@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   // start the program
-  start();
+    start();
 
   // Rotates selection of cubes
   $("#rubriksCube").on("click", function(){
@@ -28,9 +28,13 @@ $(document).ready(function(){
 
   // Switches which way to rotate
   $("body").on("keypress", function(key){
+    console.log(key.keyCode);
     if (!GC.rotationLock) {
       if (key.keyCode === 115) {  // s key
         GC.rotationDirection++;
+      }
+      else if (key.keyCode === 114){
+        resetCamera();
       }
       else { // any other key
         GC.choice++;
