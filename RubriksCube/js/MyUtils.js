@@ -11,7 +11,7 @@ GC.mouse = new THREE.Vector2();
 GC.pivot = new THREE.Object3D();
 GC.renderer = getRenderer();
 GC.rotationSpeed = 20;
-GC.rotationDirection = 0;
+GC.rotatePositive = true;
 GC.rotationLock = false;
 GC.cubesSelected = [];
 GC.choice = 0;
@@ -76,9 +76,12 @@ var render = function () {
 
   // Rotates the object slowly
   if (GC.counter > 0) {
-    if (GC.rotationDirection % 2 == 0) { rotatePositiveAroundPivot();}
-    else { rotateNegativeAroundPivot();}
+    // Select the current rotation direction
+    GC.rotatePositive ? rotatePositiveAroundPivot() : rotateNegativeAroundPivot();
+
+    // Decrement the counter
     GC.counter--;
+
     // Finished rotating
     if (GC.counter <= 0) {
       resetScene();
