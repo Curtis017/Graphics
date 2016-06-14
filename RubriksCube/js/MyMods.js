@@ -8,8 +8,8 @@ $(document).ready(function(){
     if (!GC.rotationLock) {
 
       // Get the x and y coordinates of the mouse relative to the container
-      GC.mouse.x = ( event.clientX / GC.canvas.offsetWidth ) * 2 - 1;
-      GC.mouse.y = - ( event.clientY / GC.canvas.offsetHeight ) * 2 + 1;
+      GC.mouse.x = ( (event.clientX - $(this).position().left) / GC.canvas.offsetWidth ) * 2 - 1;
+      GC.mouse.y = - ( (event.clientY - $(this).position().top) / GC.canvas.offsetHeight ) * 2 + 1;
 
       // update the picking ray with the camera and mouse position
       GC.raycaster.setFromCamera( GC.mouse, GC.camera );
