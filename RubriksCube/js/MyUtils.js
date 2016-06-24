@@ -2,6 +2,7 @@
 // TODO: Create buttons for interacting with cube instead of key presses
 // TODO: Change background color to white
 // TODO: Replace modded elements with enums
+// TODO: place branch in command prompt (not program specific)
 
 // Global Graphic Content
 var GC = {}
