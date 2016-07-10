@@ -211,9 +211,9 @@ function webglAvailable() {
 // returns appropriate renderer (mobile/desktop)
 function getRenderer() {
   if ( webglAvailable() ) {
-    return( new THREE.WebGLRenderer() ); // Desktop (or WebGL capable)
+    return( new THREE.WebGLRenderer({antialias: true}) ); // Desktop (or WebGL capable)
   } else {
-    return( new THREE.CanvasRenderer() ); // Mobile
+    return( new THREE.CanvasRenderer({antialias: true}) ); // Mobile
   }
 }
 
