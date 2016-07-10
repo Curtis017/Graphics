@@ -217,8 +217,36 @@ function getRenderer() {
   }
 }
 
-function resetCamera() {
-  GC.camera.position.x = 3;
-  GC.camera.position.y = 3;
-  GC.camera.position.z = 3;
+// Add buttons to change rotation/direction
+function createHUD() {
+  var cube = document.getElementById("rubriksCube");
+  var hudButtons = document.createElement('div');
+  var rotateButton = document.createElement('i');
+  var directionButton = document.createElement('i');
+  var resetButton = document.createElement('i');
+
+  hudButtons.id = "hud";
+  rotateButton.className = "mdi mdi-rotate-3d";
+  rotateButton.onclick = function() {
+    if (!GC.rotationLock) {
+      GC.rotatePositive = GC.rotatePositive ? false : true;
+    }
+  }
+  directionButton.className = "mdi mdi-debug-step-over";
+  directionButton.onclick = function() {
+    if (!GC.rotationLock) {
+      GC.choice++;
+    }
+  }
+  resetButton.className = "mdi mdi-cube-outline";
+  resetButton.onclick = function() {
+    if (!GC.rotationLock) {
+      GC.camera.position.x = 3; GC.camera.position.y = 3; GC.camera.position.z = 3;
+    }
+  }
+
+  hudButtons.appendChild(rotateButton);
+  hudButtons.appendChild(resetButton);
+  hudButtons.appendChild(directionButton);
+  $("#rubriksCube").after(hudButtons);
 }

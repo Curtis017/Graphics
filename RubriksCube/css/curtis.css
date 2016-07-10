@@ -1,6 +1,32 @@
-body { margin: 0; }
+body { margin: 0; font-size: 100%; background-color: black;}
 canvas { width: 100%; height: 100% }
 #rubriksCube {
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 85%;
+}
+
+#hud {
+  position: absolute;
+  width: 100%;
+  height: 15%;
+  background-color: black;
+  text-align: center;
+  font-size: 300%;
+}
+
+#hud i {
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#hud i:hover {
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+
+#hud i:active {
+  color: black;
 }

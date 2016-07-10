@@ -2,6 +2,7 @@ $(document).ready(function(){
 
   // start the program
   start();
+  createHUD();
 
   // Rotates selection of cubes
   $("#rubriksCube").on("click", function(){
@@ -24,19 +25,6 @@ $(document).ready(function(){
         GC.rotationLock = true;
         setSelectedCubes(intersects[0].object.position);
       }
-    }
-  });
-
-  // updates rotation settings
-  $("body").on("keypress", function(key){
-    // If not already rotating
-    if (!GC.rotationLock) {
-      // s key (switch rotation direction)
-      if (key.keyCode === 115) { GC.rotatePositive = GC.rotatePositive ? false : true; }
-      // r key (reset the camera position)
-      else if (key.keyCode === 114){ resetCamera(); }
-      // other key change rotation axis
-      else { GC.choice++; }
     }
   });
 
